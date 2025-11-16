@@ -740,7 +740,12 @@
         </div>
 
         <!-- Pools will be dynamically inserted here -->
-        <div id="pools-container"></div>
+        <div id="pools-container">
+            <div class="card" id="pools-loading" style="display: flex; align-items: center; justify-content: center; gap: 15px; padding: 25px;">
+                <div class="loading-indicator" style="width: 30px; height: 30px;"></div>
+                <h2 style="color: #60a5fa; margin: 0; font-size: 1.5em;">Pools loading....</h2>
+            </div>
+        </div>
 
         <div class="card">
             <h2>💰 How I Fund The Pools</h2>
@@ -1350,13 +1355,22 @@ My goal is simple: honest rewards funded by someone who believes that sharing wi
             if (configs.length === 0) {
                 document.getElementById('pools-container').innerHTML = `
                     <div class="error-message">
-                        Unable to load pool configurations. Please check your CSV URL settings.
+                        Unable to load pool configurations. Please contact me with the button at the bottom of the website.
                     </div>
                 `;
                 return;
             }
             
             const poolsContainer = document.getElementById('pools-container');
+            
+            // Remove loading message
+            const loadingElement = document.getElementById('pools-loading');
+            if (loadingElement) {
+                loadingElement.remove();
+            }
+            
+            // Clear container and add pools
+            poolsContainer.innerHTML = '';
             
             configs.forEach(config => {
                 const poolHTML = generatePoolHTML(config);
